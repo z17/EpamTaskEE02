@@ -1,26 +1,31 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Boolean valid = (Boolean) request.getAttribute("validForm");
+    Boolean insertStatus = (Boolean) request.getAttribute("insertStatus");
 %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Добавить тариф</title>
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" type="text/css" />
+    <link rel="stylesheet" src="/style/style.css" type="text/css" />
+    <link rel="stylesheet" src="${pageContext.request.contextPath}/style/style.css" type="text/css" />
+
 </head>
 <body>
 <div class="wrapper">
     <%
-        if (valid != null) {
-            if (valid) {
-                %>
-                Тариф добавлен
-                <%
+    if (valid != null) {
+        if (valid) {
+            if (insertStatus) {
+                out.print("Добавлен успешно");
             } else {
-                %>
-                Ошибка в ввода данных
-                <%
-
+                out.print("Ошибка добавления");
             }
+        } else {
+            out.print("Ошибка ввода данных");
         }
+    }
     %>
     <h2>Добавить тариф</h2>
     <form method="POST">

@@ -1,0 +1,12 @@
+body {
+    background: #f1f1f1;
+}
+
+.wrapper {
+    background: #fff;
+    border-left:1px solid #aaa;
+    border-right:1px solid #aaa;
+    width: 1000px;
+    margin:0px auto;
+    padding: 25px 15px;
+}

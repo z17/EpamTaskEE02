@@ -34,7 +34,7 @@ public final class ConnectionPool {
         this.user = dbResourceManager.getValue(DBParameter.DB_USER);
         this.password = dbResourceManager.getValue(DBParameter.DB_PASSWORD);
         this.poolSize = Integer.parseInt(dbResourceManager.getValue(DBParameter.DB_POOL_SIZE));
-
+        initPoolData();
     }
 
     public void initPoolData() {
@@ -46,6 +46,7 @@ public final class ConnectionPool {
             givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
+
                 PooledConnection polledConnection = new PooledConnection(connection, connectionQueue, givenAwayConQueue);
                 connectionQueue.add(polledConnection);
             }
@@ -70,7 +71,6 @@ public final class ConnectionPool {
 
     public Connection takeConnection() {
         Connection connection = null;
-
         try {
             connection = connectionQueue.take();
             givenAwayConQueue.add(connection);
