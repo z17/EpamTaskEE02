@@ -9,10 +9,10 @@
     <title>Tariffs list</title>
     <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" type="text/css" />
     <link rel="stylesheet" src="/style/style.css" type="text/css" />
-    <link rel="stylesheet" src="http://blweb.ru/wp-content/themes/blweb_new/style.css" type="text/css" />
 </head>
 <body>
     <div class="wrapper">
+        <div><a href="/add">Добавить</a></div>
         <h1>Список тарифов</h1>
         <% if (tariffs != null) {
             for (Tariff tariff:tariffs) { %>
@@ -21,6 +21,10 @@
                 <p><%=tariff.getDescription()%></p>
                 <p><%=tariff.getMinutePrice()%> руб/минута</p>
                 <p><%=tariff.getMonthPrice()%> руб абонентская плата</p>
+                <div>
+                    <a href="/edit?id=<%=tariff.getId()%>">Редактировать</a> |
+                    <a href="/delete?id=<%=tariff.getId()%>">Удалить</a>
+                </div>
             </div>
         <% }
         } else {
