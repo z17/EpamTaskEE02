@@ -1,5 +1,6 @@
 package servlets;
 
+import tariffs.Tariff;
 import tariffs.TariffWorker;
 
 import javax.servlet.RequestDispatcher;
@@ -25,30 +26,23 @@ public class Add extends HttpServlet {
 
 
     private void processRequest (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.setCharacterEncoding("UTF-8");
 
         String submit = request.getParameter("submit");
 
         if (submit != null) {
-            int minutePrice = 0;
-            int monthPrice = 0;
             String name = request.getParameter("name");
             String description = request.getParameter("description");
-            boolean validIn = true;
-            try {
-                minutePrice = Integer.parseInt(request.getParameter("minute_price"));
-                monthPrice = Integer.parseInt(request.getParameter("month_price"));
-            } catch (NumberFormatException e) {
-                validIn = false;
-            }
-            if (name == null || description == null || minutePrice < 0 || monthPrice < 0) {
-                validIn = false;
-            }
-            request.setAttribute("validForm", validIn);
+            String strMinutePrice = request.getParameter("minute_price");
+            String strMonthPrice = request.getParameter("month_price");
+            Tariff tariff = Tariff.newInstance(name, description, strMinutePrice, strMonthPrice);
 
-            if (validIn) {
-                boolean insertStatus = TariffWorker.add(name, description, minutePrice, monthPrice);
+            if (tariff != null) {
+                boolean insertStatus = TariffWorker.add(tariff);
                 request.setAttribute("insertStatus", insertStatus);
+                request.setAttribute("validForm", true);
+            } else {
+                request.setAttribute("validForm", false);
+
             }
         }
 
